@@ -32,31 +32,36 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     });
 
 
-    return { registeredCommands: ['kill, execute, assassinate'] };
+    return { registeredCommands: ['kill', 'execute', 'assassinate'] };
   }
 
   async kill(speaker: string, target: string, message: string, option: string){
     if(Omegga.getPlayer(speaker).isHost()){ // user validation
       const user = this.omegga.getPlayer(speaker);
+      
       const subject = this.omegga.findPlayerByName(target);
+    
       if(subject != null){
-        subject.kill();
-        if(option == '-s'){
-          Omegga.whisper(user, `You have attempted a silent kill command on <color="ffcc99">${subject.name}</>.`);
-        } else if (option == '-b'){
-          if(message){
-            Omegga.broadcast(`${subject.name} has been killed by ${user.name}: ${message}`);
-          } else {
-            Omegga.broadcast(`${subject.name} has been killed by ${user.name}.`);
-          }
-          Omegga.whisper(user, `You have attempted a broadcasted kill command on <color="ffcc99">${subject.name}</>.`);
+        if(subject.isDead){
+          Omegga.whisper(user, `You have attempted a kill command on <color="${subject.getNameColor()}">${subject.name}</>, but they're already dead.`);
         } else {
-          if(message){
-            Omegga.whisper(subject, `${user.name} has killed you: ${message}`);
+          subject.kill();
+          if(option == '-s'){
+            Omegga.whisper(user, `You have attempted a silent kill command on <color="${subject.getNameColor()}">${subject.name}</>.`);
+          } else if (option == '-b'){
+            if(message){
+              Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been killed by <color="${user.getNameColor()}">${user.name}</>: (${message})`);
+            } else {
+              Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been killed by <color="${user.getNameColor()}">${user.name}</>.`);
+            }
           } else {
-            Omegga.whisper(subject, `${user.name} has killed you.`);
+            if(message){
+              Omegga.whisper(subject, `<color="${user.getNameColor()}">${user.name}</> has killed you: (${message})`);
+            } else {
+              Omegga.whisper(subject, `<color="${user.getNameColor()}">${user.name}</> has killed you.`);
+            }
+            Omegga.whisper(user, `You have attempted a kill command on <color="${subject.getNameColor()}">${subject.name}</>.`);
           }
-          Omegga.whisper(user, `You have attempted a kill command on <color="ffcc99">${subject.name}</>.`);
         }
       } else {
         Omegga.whisper(user, `Could not find a user with name <color="ffcc99">${target}</>.`);
