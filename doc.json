@@ -1,7 +1,63 @@
 {
   "name": "killcommand",
-  "description": "A typed safe Omegga plugin.",
-  "author": "danteori",
-  "config": {},
-  "commands": []
+  "description": "Provides users with the tools of murder through chat commands.",
+  "author": "orion",
+  "config": {
+    "authorized-users": {
+      "description": "Users who are authorized to create/use doors",
+      "default": [],
+      "type": "players"
+    },
+    "authorized-role": {
+      "description": "The role that allows users to create/use doors",
+      "default": "Moderator",
+      "type": "role"
+    }
+  },
+  "commands": [
+    {
+      "name": "/kill",
+      "description": "Attempts a kill on a target player. Informs the victim that they have been killed.",
+      "example": "/kill target message",
+      "args": [
+        {
+          "name": "target",
+          "description": "The victim.",
+          "required": true
+        },
+        { "name": "message",
+          "description": "An optional message if you would like to let your victim know why they were killed.",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "/execute",
+      "description": "Attempts a kill on a target player. Informs the entire server that they have been killed.",
+      "example": "/kill target message",
+      "args": [
+        {
+          "name": "target",
+          "description": "The victim.",
+          "required": true
+        },
+        { "name": "message",
+          "description": "An optional message if you would like to let the server know why the victim was killed.",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "/assassinate",
+      "description": "Attempts a kill on a target player. Only the user will know that the victim was killed.",
+      "example": "/kill target message",
+      "args": [
+        {
+          "name": "target",
+          "description": "The victim.",
+          "required": true
+        }
+      ]
+    }
+  ]
 }

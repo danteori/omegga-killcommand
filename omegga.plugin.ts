@@ -1,4 +1,5 @@
 import OmeggaPlugin, { OL, PS, PC } from 'omegga';
+import { User } from '../omegga-onions/omegga';
 
 type Config = { foo: string };
 type Storage = { bar: string };
@@ -18,17 +19,23 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Write your plugin!
     this.omegga.on('cmd:kill',
     async (speaker: string, target: string, ...args: string[]) => {
+      if(this.validate(speaker, target)){
         await this.kill(speaker, target, args.join(' '), '');
+      }
     });
 
     this.omegga.on('cmd:execute',
     async (speaker: string, target: string, ...args: string[]) => {
+      if(this.validate(speaker, target)){
         await this.kill(speaker, target, args.join(' '), '-b');
+      }
     });
 
     this.omegga.on('cmd:assassinate',
-    async (speaker: string, target: string, ...args: string[]) => {
-        await this.kill(speaker, target, args.join(' '), '-s');
+    async (speaker: string, target: string) => {
+      if(this.validate(speaker, target)){
+        await this.kill(speaker, target, '', '-s');
+      }
     });
 
 
@@ -67,6 +74,23 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         Omegga.whisper(user, `Could not find a user with name <color="ffcc99">${target}</>.`);
       }
     }
+  }
+
+  validate(speaker: string, target: string): boolean{
+    const user = Omegga.getPlayer(speaker);
+    if(!user){
+      console.log(`Kill command attempted by user ${speaker} that could not be found.`)
+    }
+    if(!target){
+      Omegga.whisper(user, "You need to include a target.");
+      return false;
+    }
+    let authorizedUsers = this.config['authorized-users'] as Array<string>;
+    if(user.getRoles().includes(this.config['authorized-role']) || authorizedUsers.includes(user.id)){
+      return true;
+    } 
+    Omegga.whisper(user, "You are not authorized to use this command.");
+    return false;
   }
 
   async stop() {
