@@ -20,7 +20,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     this.omegga.on('cmd:kill',
     async (speaker: string, target: string, ...args: string[]) => {
       if(this.validate(speaker, target)){
-        await this.kill(speaker, target, args.join(' '), '');
+          await this.kill(speaker, target, args.join(' '), '');
       }
     });
 
@@ -43,7 +43,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   async kill(speaker: string, target: string, message: string, option: string){
-    if(Omegga.getPlayer(speaker).isHost()){ // user validation
       const user = this.omegga.getPlayer(speaker);
       
       const subject = this.omegga.findPlayerByName(target);
@@ -73,7 +72,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       } else {
         Omegga.whisper(user, `Could not find a user with name <color="ffcc99">${target}</>.`);
       }
-    }
   }
 
   validate(speaker: string, target: string): boolean{
