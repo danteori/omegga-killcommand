@@ -16,8 +16,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   async init() {
-    // Write your plugin!
-    this.omegga.on('cmd:kill',
+    this.omegga.on('cmd:slay',
     async (speaker: string, target: string, ...args: string[]) => {
       if(this.validate(speaker, target)){
           await this.kill(speaker, target, args.join(' '), '');
@@ -39,7 +38,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     });
 
 
-    return { registeredCommands: ['kill', 'execute', 'assassinate'] };
+    return { registeredCommands: ['slay', 'execute', 'assassinate'] };
   }
 
   async kill(speaker: string, target: string, message: string, option: string){
@@ -56,15 +55,15 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             Omegga.whisper(user, `You have attempted a silent kill command on <color="${subject.getNameColor()}">${subject.name}</>.`);
           } else if (option == '-b'){
             if(message){
-              Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been killed by <color="${user.getNameColor()}">${user.name}</>: (${message})`);
+              Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been slain by <color="${user.getNameColor()}">${user.name}</>: (${message})`);
             } else {
-              Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been killed by <color="${user.getNameColor()}">${user.name}</>.`);
+              Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been slain by <color="${user.getNameColor()}">${user.name}</>.`);
             }
           } else {
             if(message){
-              Omegga.whisper(subject, `<color="${user.getNameColor()}">${user.name}</> has killed you: (${message})`);
+              Omegga.whisper(subject, `You have been slain by <color="${user.getNameColor()}">${user.name}</>: (${message})`);
             } else {
-              Omegga.whisper(subject, `<color="${user.getNameColor()}">${user.name}</> has killed you.`);
+              Omegga.whisper(subject, `You have been slain by <color="${user.getNameColor()}">${user.name}</>.`);
             }
             Omegga.whisper(user, `You have attempted a kill command on <color="${subject.getNameColor()}">${subject.name}</>.`);
           }

@@ -11,9 +11,9 @@
   },
   "commands": [
     {
-      "name": "/kill",
-      "description": "Attempts a kill on a target player. Informs the victim that they have been killed.",
-      "example": "/kill target message",
+      "name": "/slay",
+      "description": "Attempts a kill on a target player. Informs the victim that they have been slain.",
+      "example": "/slay target message",
       "args": [
         {
           "name": "target",
@@ -21,15 +21,15 @@
           "required": true
         },
         { "name": "message",
-          "description": "An optional message if you would like to let your victim know why they were killed.",
+          "description": "An optional message if you would like to let your victim know why they were slain.",
           "required": false
         }
       ]
     },
     {
       "name": "/execute",
-      "description": "Attempts a kill on a target player. Informs the entire server that they have been killed.",
-      "example": "/kill target message",
+      "description": "Attempts a kill on a target player. Informs the entire server that they have been executed.",
+      "example": "/execute target message",
       "args": [
         {
           "name": "target",
@@ -37,15 +37,15 @@
           "required": true
         },
         { "name": "message",
-          "description": "An optional message if you would like to let the server know why the victim was killed.",
+          "description": "An optional message if you would like to let the server know why the victim was executed.",
           "required": false
         }
       ]
     },
     {
       "name": "/assassinate",
-      "description": "Attempts a kill on a target player. Only the user will know that the victim was killed.",
-      "example": "/kill target message",
+      "description": "Attempts a kill on a target player. Only the user will know that the victim was assassinated.",
+      "example": "/assassinate target message",
       "args": [
         {
           "name": "target",
