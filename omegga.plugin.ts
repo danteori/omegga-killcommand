@@ -83,8 +83,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       Omegga.whisper(user, "You need to include a target.");
       return false;
     }
-    let authorizedUsers = this.config['authorized-users'] as Array<string>;
-    if(user.getRoles().includes(this.config['authorized-role']) || authorizedUsers.includes(user.id)){
+    if(user.getRoles().includes(this.config['authorized-role'])){
       return true;
     } 
     Omegga.whisper(user, "You are not authorized to use this command.");
