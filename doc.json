@@ -5,7 +5,7 @@
   "config": {
     "authorized-role": {
       "description": "The role that allows users to create/use doors",
-      "default": "Moderator",
+      "default": "Admin",
       "type": "role"
     }
   },
