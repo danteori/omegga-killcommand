@@ -18,24 +18,50 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
     // Write your plugin!
     this.omegga.on('cmd:kill',
     async (speaker: string, target: string, ...args: string[]) => {
-        if(Omegga.getPlayer(speaker).isHost()){
-          const user = this.omegga.getPlayer(speaker);
-          const subject = this.omegga.findPlayerByName(target);
-          if(subject != null){
-            subject.kill();
-            if(args.length > 0){
-              Omegga.whisper(subject, `${user.name} has killed you: ${args.join(' ')}`);
-            } else {
-              Omegga.whisper(subject, `${user.name} has killed you.`);
-            }
-            Omegga.whisper(user, `You have attempted a kill command on <color="ffcc99">${subject.name}.`);
-          } else {
-            Omegga.whisper(user, `Could not find a user with name <color="ffcc99">${target}.`);
-          }
-        }
-      });
+        await this.kill(speaker, target, args.join(' '), '');
+    });
 
-    return { registeredCommands: ['kill'] };
+    this.omegga.on('cmd:execute',
+    async (speaker: string, target: string, ...args: string[]) => {
+        await this.kill(speaker, target, args.join(' '), '-b');
+    });
+
+    this.omegga.on('cmd:assassinate',
+    async (speaker: string, target: string, ...args: string[]) => {
+        await this.kill(speaker, target, args.join(' '), '-s');
+    });
+
+
+    return { registeredCommands: ['kill, execute, assassinate'] };
+  }
+
+  async kill(speaker: string, target: string, message: string, option: string){
+    if(Omegga.getPlayer(speaker).isHost()){ // user validation
+      const user = this.omegga.getPlayer(speaker);
+      const subject = this.omegga.findPlayerByName(target);
+      if(subject != null){
+        subject.kill();
+        if(option == '-s'){
+          Omegga.whisper(user, `You have attempted a silent kill command on <color="ffcc99">${subject.name}</>.`);
+        } else if (option == '-b'){
+          if(message){
+            Omegga.broadcast(`${subject.name} has been killed by ${user.name}: ${message}`);
+          } else {
+            Omegga.broadcast(`${subject.name} has been killed by ${user.name}.`);
+          }
+          Omegga.whisper(user, `You have attempted a broadcasted kill command on <color="ffcc99">${subject.name}</>.`);
+        } else {
+          if(message){
+            Omegga.whisper(subject, `${user.name} has killed you: ${message}`);
+          } else {
+            Omegga.whisper(subject, `${user.name} has killed you.`);
+          }
+          Omegga.whisper(user, `You have attempted a kill command on <color="ffcc99">${subject.name}</>.`);
+        }
+      } else {
+        Omegga.whisper(user, `Could not find a user with name <color="ffcc99">${target}</>.`);
+      }
+    }
   }
 
   async stop() {
