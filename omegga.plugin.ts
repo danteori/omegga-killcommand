@@ -42,7 +42,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const subject = this.omegga.findPlayerByName(target);
     
       if(subject != null){
-        if(subject.isDead){
+        if(await subject.isDead()){
           Omegga.whisper(user, `You have attempted a kill command on <color="${subject.getNameColor()}">${subject.name}</>, but they're already dead.`);
         } else {
           subject.kill();
