@@ -3,11 +3,6 @@
   "description": "Provides users with the tools of murder through chat commands.",
   "author": "orion",
   "config": {
-    "authorized-users": {
-      "description": "Users who are authorized to create/use doors",
-      "default": [],
-      "type": "players"
-    },
     "authorized-role": {
       "description": "The role that allows users to create/use doors",
       "default": "Moderator",
