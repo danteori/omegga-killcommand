@@ -35,8 +35,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         await this.kill(speaker, target, '', '-s');
       }
     });
-
-
+    
     return { registeredCommands: ['slay', 'execute', 'assassinate'] };
   }
 
@@ -44,8 +43,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const user = this.omegga.getPlayer(speaker);
       const ucolor = user.getNameColor();
       const subject = this.omegga.findPlayerByName(target);
-      
-
       if(subject != null){
         const scolor = subject.getNameColor();
         if(await subject.isDead()){
@@ -67,7 +64,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   validate(speaker: string, target: string): boolean{
-
     const specialWeapons : string[] = ["a", "b"];
     specialWeapons.includes
     const user = Omegga.getPlayer(speaker);
