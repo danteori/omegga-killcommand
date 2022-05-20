@@ -35,7 +35,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
         await this.kill(speaker, target, '', '-s');
       }
     });
-    
+
     return { registeredCommands: ['slay', 'execute', 'assassinate'] };
   }
 
@@ -64,8 +64,6 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   validate(speaker: string, target: string): boolean{
-    const specialWeapons : string[] = ["a", "b"];
-    specialWeapons.includes
     const user = Omegga.getPlayer(speaker);
     if(!user){
       console.log(`Kill command attempted by user ${speaker} that could not be found.`)
