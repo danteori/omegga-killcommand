@@ -55,23 +55,8 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
             Omegga.whisper(user, `You have attempted a silent kill command on <color="${subject.getNameColor()}">${subject.name}</>.`);
           } else if (option == '-b'){
             Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been slain by <color="${user.getNameColor()}">${user.name}</>${message ? `: (${message})` : `.`}`);
-            /*
-            if(message){
-              Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been slain by <color="${user.getNameColor()}">${user.name}</>: (${message})`);
-            } else {
-              Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been slain by <color="${user.getNameColor()}">${user.name}</>.`);
-            }
-            */
           } else {
             Omegga.whisper(subject, `You have been slain by <color="${user.getNameColor()}">${user.name}</>${message ? `: (${message})` : `.`}`);
-            /*
-            if(message){
-              Omegga.whisper(subject, `You have been slain by <color="${user.getNameColor()}">${user.name}</>: (${message})`);
-            } else {
-              Omegga.whisper(subject, `You have been slain by <color="${user.getNameColor()}">${user.name}</>.`);
-              (message ? `: message` : `.`)
-            }
-            */
             Omegga.whisper(user, `You have attempted a kill command on <color="${subject.getNameColor()}">${subject.name}</>.`);
           }
         }
