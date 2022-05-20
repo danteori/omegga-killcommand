@@ -42,22 +42,23 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
 
   async kill(speaker: string, target: string, message: string, option: string){
       const user = this.omegga.getPlayer(speaker);
-      
+      const ucolor = user.getNameColor();
       const subject = this.omegga.findPlayerByName(target);
       
-    
+
       if(subject != null){
+        const scolor = subject.getNameColor();
         if(await subject.isDead()){
-          Omegga.whisper(user, `You have attempted a kill command on <color="${subject.getNameColor()}">${subject.name}</>, but they're already dead.`);
+          Omegga.whisper(user, `You have attempted a kill command on <color="${scolor}">${subject.name}</>, but they're already dead.`);
         } else {
           subject.kill();
           if(option == '-s'){
-            Omegga.whisper(user, `You have attempted a silent kill command on <color="${subject.getNameColor()}">${subject.name}</>.`);
+            Omegga.whisper(user, `You have attempted a silent kill command on <color="${scolor}">${subject.name}</>.`);
           } else if (option == '-b'){
-            Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been slain by <color="${user.getNameColor()}">${user.name}</>${message ? `: (${message})` : `.`}`);
+            Omegga.broadcast(`<color="${scolor}">${subject.name}</> has been slain by <color="${ucolor}">${user.name}</>${message ? `: (${message})` : `.`}`);
           } else {
-            Omegga.whisper(subject, `You have been slain by <color="${user.getNameColor()}">${user.name}</>${message ? `: (${message})` : `.`}`);
-            Omegga.whisper(user, `You have attempted a kill command on <color="${subject.getNameColor()}">${subject.name}</>.`);
+            Omegga.whisper(subject, `You have been slain by <color="${ucolor}">${user.name}</>${message ? `: (${message})` : `.`}`);
+            Omegga.whisper(user, `You have attempted a kill command on <color="${scolor}">${subject.name}</>.`);
           }
         }
       } else {
