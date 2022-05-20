@@ -1,5 +1,4 @@
 import OmeggaPlugin, { OL, PS, PC } from 'omegga';
-import { User } from '../omegga-onions/omegga';
 
 type Config = { foo: string };
 type Storage = { bar: string };
@@ -45,6 +44,7 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
       const user = this.omegga.getPlayer(speaker);
       
       const subject = this.omegga.findPlayerByName(target);
+      
     
       if(subject != null){
         if(await subject.isDead()){
@@ -54,17 +54,24 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
           if(option == '-s'){
             Omegga.whisper(user, `You have attempted a silent kill command on <color="${subject.getNameColor()}">${subject.name}</>.`);
           } else if (option == '-b'){
+            Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been slain by <color="${user.getNameColor()}">${user.name}</>${message ? `: (${message})` : `.`}`);
+            /*
             if(message){
               Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been slain by <color="${user.getNameColor()}">${user.name}</>: (${message})`);
             } else {
               Omegga.broadcast(`<color="${subject.getNameColor()}">${subject.name}</> has been slain by <color="${user.getNameColor()}">${user.name}</>.`);
             }
+            */
           } else {
+            Omegga.whisper(subject, `You have been slain by <color="${user.getNameColor()}">${user.name}</>${message ? `: (${message})` : `.`}`);
+            /*
             if(message){
               Omegga.whisper(subject, `You have been slain by <color="${user.getNameColor()}">${user.name}</>: (${message})`);
             } else {
               Omegga.whisper(subject, `You have been slain by <color="${user.getNameColor()}">${user.name}</>.`);
+              (message ? `: message` : `.`)
             }
+            */
             Omegga.whisper(user, `You have attempted a kill command on <color="${subject.getNameColor()}">${subject.name}</>.`);
           }
         }
@@ -74,6 +81,9 @@ export default class Plugin implements OmeggaPlugin<Config, Storage> {
   }
 
   validate(speaker: string, target: string): boolean{
+
+    const specialWeapons : string[] = ["a", "b"];
+    specialWeapons.includes
     const user = Omegga.getPlayer(speaker);
     if(!user){
       console.log(`Kill command attempted by user ${speaker} that could not be found.`)
